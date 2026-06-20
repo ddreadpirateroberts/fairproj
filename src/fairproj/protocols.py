@@ -303,15 +303,15 @@ class Stromquist(ThreeAgentProtocol, EnvyFreeProtocol):
                 raise StromquistConvergenceError(delta)
                 
             refrees_cut = Piece(0, refs_knife)
-            left_piece = Piece(refs_knife, 1)
+            right_piece = Piece(refs_knife, 1)
             
             marks = []
             for agent in self.agents: 
                 agent: Agent
                 mark = agent.mark(
-                    agent.eval(left_piece) / 2, 
-                    start=left_piece.left, 
-                    end=left_piece.right
+                    agent.eval(right_piece) / 2, 
+                    start=right_piece.left, 
+                    end=right_piece.right
                 )
                 marks.append((agent, mark))
                 
