@@ -1,5 +1,4 @@
 from fairproj.protocols import SteinhausProcedure
-from fairproj.bases import Agent
 from fairproj.utils import (
     make_up_agents, envy_report, boxed 
 )

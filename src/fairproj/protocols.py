@@ -8,7 +8,6 @@ from fairproj.bases import (
     E
 )
 from typing import List, Tuple
-import math 
 
 
 class CutAndChoose(TwoAgentProtocol, EnvyFreeProtocol):
