@@ -1,6 +1,6 @@
 from fairproj.bases import Allocation, Agent, E
 import random as ran 
-from typing import List, Callable, Tuple
+from typing import List, Callable, Tuple, Optional
 
 
 def get_random_weights(n: int = 5) -> List[float]: 
@@ -9,7 +9,7 @@ def get_random_weights(n: int = 5) -> List[float]:
     return [i/s for i in lst]
 
 
-def create_utilfunc(weights: List[float] = None) -> Callable: 
+def create_utilfunc(weights: Optional[List[float]] = None) -> Callable: 
     if weights is None: 
         weights = get_random_weights()
 
@@ -19,7 +19,7 @@ def create_utilfunc(weights: List[float] = None) -> Callable:
     
     piece_size = 1 / len(weights)
     def utilfunc(left: float, right: float) -> float: 
-        total = 0
+        total = 0.
         for i, w in enumerate(weights): 
             piece_start = i * piece_size
             piece_end = (i + 1) * piece_size

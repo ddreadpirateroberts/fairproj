@@ -109,9 +109,9 @@ class LastDiminisher(ProportionalProtocol):
         alloc = Allocation()
         playing_agents = self.agents[:]
         
-        left = 0 
+        left = 0. 
         while len(playing_agents) > 1: 
-            right = 1
+            right = 1.
             n = len(playing_agents)
             current_piece = Piece(left, right)
                         
@@ -306,7 +306,6 @@ class Stromquist(ThreeAgentProtocol, EnvyFreeProtocol):
             
             marks = []
             for agent in self.agents: 
-                agent: Agent
                 mark = agent.mark(
                     agent.eval(right_piece) / 2, 
                     start=right_piece.left, 
