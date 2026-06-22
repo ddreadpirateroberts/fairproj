@@ -10,24 +10,25 @@ class Piece:
     left: float
     right: float
 
-    @property
-    def length(self) -> float:
-        return self.right - self.left
-
 
 class Agent:
     def __init__(self, name: str, util_func: Callable[[float, float], float]):
         self.name = name
         self._util = util_func
-
+        
+    def __repr__(self):
+            return f"Agent({self.name!r})"
+        
     @overload
     def eval(self, piece: Piece) -> float: ...
-
     @overload
     def eval(self, left: float, right: float) -> float: ...
 
-    def eval(self, left_or_piece: Union[Piece, float], 
-             right: Optional[float] = None) -> float:
+    def eval( # type: ignore[misc]
+        self, 
+        left_or_piece: Union[Piece, float], 
+        right: Optional[float] = None
+    ) -> float:
         if isinstance(left_or_piece, Piece):
             return self._util(left_or_piece.left, left_or_piece.right)
         if right is None: 
@@ -63,9 +64,6 @@ class Agent:
         best_pick = max(pieces, key=lambda p: self.eval(p))
         return [best_pick], [p for p in pieces if p != best_pick]
         
-    def __repr__(self):
-        return f"Agent({self.name!r})"
-
 
 @dataclass
 class Allocation:
@@ -82,16 +80,20 @@ class Allocation:
 
     @overload
     def assign(self, agent: Agent, piece: Piece) -> None: ...
-
     @overload
     def assign(self, assignments: dict[Agent, list[Piece]]) -> None: ...
 
-    def assign(self, agent_or_dict: Union[Agent, dict], piece: Optional[Piece] = None) -> None:
+    def assign( # type: ignore[misc]
+        self, 
+        agent_or_dict: Union[Agent, dict[Agent, list[Piece]]], 
+        piece: Optional[Piece] = None
+    ) -> None:
         if isinstance(agent_or_dict, dict):
             for agent, pieces in agent_or_dict.items():
                 for piece in pieces:
                     self.assignments.setdefault(agent, []).append(piece)
         else:
+            assert piece is not None, "piece must be provided when agent is passed directly"
             self.assignments.setdefault(agent_or_dict, []).append(piece)
 
     def value_for(self, agent: Agent) -> float:
