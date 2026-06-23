@@ -114,18 +114,18 @@ class LastDiminisher(ProportionalProtocol):
             right = 1.
             n = len(playing_agents)
             current_piece = Piece(left, right)
-                        
+                 
             diminishers = []
+            trimmed = current_piece
             for agent in playing_agents: 
-                # the error term accounts for floating point impercision when val(piece) == 1/n.
-                if agent.eval(current_piece) >= 1/n - E: 
-                    right = agent.mark(1/n, start=left, end=right)
-                    current_piece = Piece(left, right)
+                tot_val = agent.eval(current_piece)
+                if agent.eval(trimmed) >= tot_val / n - E: 
+                    right = agent.mark(tot_val/n, start=left, end=right)
+                    trimmed = Piece(left, right)
                     diminishers.append(agent)
                     
-        
             last_dim = diminishers[-1]
-            alloc.assign(last_dim, current_piece)
+            alloc.assign(last_dim, trimmed)
             left = right
             playing_agents.remove(last_dim)
         
@@ -149,7 +149,7 @@ class DubinsSpanier(ProportionalProtocol):
         marks = []
         for a in active_agents:
             mark_at = a.eval(rest) / n
-            mark   = a.mark(mark_at, start=rest.left, end=rest.right)
+            mark = a.mark(mark_at, start=rest.left, end=rest.right)
             marks.append((a, mark))
 
         marks.sort(key=lambda tpl: tpl[1])
