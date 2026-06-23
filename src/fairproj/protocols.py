@@ -232,7 +232,7 @@ class SelfridgeConway(ThreeAgentProtocol, EnvyFreeProtocol):
         alloc.assign({v1: v1_pick, v2: v2_pick, v3: v3_pick})
 
         t = cutter.eval(trimmings) / 3
-        cut3 = cutter.mark(t,   trimmings.left, trimmings.right)
+        cut3 = cutter.mark(t, trimmings.left, trimmings.right)
         cut4 = cutter.mark(t*2, trimmings.left, trimmings.right)
 
         trimming_pieces = [
