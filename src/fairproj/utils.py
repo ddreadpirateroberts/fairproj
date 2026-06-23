@@ -1,6 +1,6 @@
 from fairproj.bases import Allocation, Agent, E
 import random as ran 
-from typing import List, Callable, Tuple, Optional
+from typing import List, Callable, Tuple
 
 
 def get_random_weights(n: int = 5) -> List[float]: 
@@ -9,10 +9,7 @@ def get_random_weights(n: int = 5) -> List[float]:
     return [i/s for i in lst]
 
 
-def create_utilfunc(weights: Optional[List[float]] = None) -> Callable: 
-    if weights is None: 
-        weights = get_random_weights()
-
+def create_utilfunc(weights: List[float]) -> Callable: 
     # --- sanity check --- 
     if abs(sum(weights) - 1) > E: 
         raise ValueError("We assume the utility function is normalised. Sum of all weights must be one.") 

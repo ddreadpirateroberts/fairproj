@@ -31,17 +31,17 @@ class Agent:
     ) -> float:
         if isinstance(left_or_piece, Piece):
             return self._util(left_or_piece.left, left_or_piece.right)
-        if right is None: 
-            raise ValueError("right must be provided when left is a float")
-        return self._util(left_or_piece, right)
+        else: 
+            assert right is not None, "right must be provided when left is passed as a float"
+            return self._util(left_or_piece, right)
 
     def mark(self, target_value: float, start: float = 0, 
-             end: float = 1, tol=1e-6) -> float:
+             end: float = 1, tol=1e-9) -> float:
         """
         Returns the cut point `end` such that eval(start, end) == target_value.
         Binary search over the cake.
         """
-        if abs(self.eval(start, end) - target_value) < 1e-9: 
+        if abs(self.eval(start, end) - target_value) < tol: 
             return end 
         
         lo, hi = start, end
@@ -98,7 +98,7 @@ class Allocation:
 
     def value_for(self, agent: Agent) -> float:
         pieces = self.assignments.get(agent, [])
-        return sum(agent.eval(p.left, p.right) for p in pieces)
+        return sum(agent.eval(p) for p in pieces)
 
     # ---- fairness auditing ----
     
