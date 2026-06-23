@@ -7,7 +7,7 @@ from fairproj.bases import (
     StromquistConvergenceError,
     E
 )
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 
 class CutAndChoose(TwoAgentProtocol, EnvyFreeProtocol):
@@ -254,8 +254,12 @@ class SelfridgeConway(ThreeAgentProtocol, EnvyFreeProtocol):
         return alloc
     
 class Stromquist(ThreeAgentProtocol, EnvyFreeProtocol):
-    def _who_shouts(self, refs_piece: Piece, marks: List[Tuple[Agent, float]]): 
-        leftmost, central, rightmost = marks 
+    def _who_shouts(
+        self, 
+        refs_piece: Piece, 
+        sorted_marks: List[Tuple[Agent, float]]
+    ) -> Union[Tuple[Agent, Agent, Agent, List[Piece]], None]: 
+        leftmost, central, rightmost = sorted_marks 
         pieces = [
             refs_piece, 
             Piece(refs_piece.right, central[1]), 
