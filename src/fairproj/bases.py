@@ -38,7 +38,7 @@ class Agent:
     def mark(self, target_value: float, start: float = 0, 
              end: float = 1, tol=1e-9) -> float:
         """
-        Returns the cut point `end` such that eval(start, end) == target_value.
+        Returns the cut point such that eval(start, cut_point) == target_value.
         Binary search over the cake.
         """
         if abs(self.eval(start, end) - target_value) < tol: 
